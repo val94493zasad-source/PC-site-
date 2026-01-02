@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Профил на автора — TechFix</title>
+    <style>
+        :root {
+            --bg-color: rgba(10,10,12,0.7);
+            --panel-bg: rgba(255,255,255,0.06);
+            --muted: #d6f7ff;
+            --accent: #00d4ff;
+            --highlight: #ff00ff;
+            --glass-blur: 6px;
+            --radius: 12px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: var(--muted);
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a3a 100%);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            padding: 24px;
+        }
+
+        header { text-align: center; margin-bottom: 18px; }
+        header h1 { font-size: 2em; color: var(--muted); }
+
+        section {
+            max-width: 980px;
+            margin: 14px auto;
+            background: rgba(255,255,255,0.03);
+            padding: 22px;
+            border-radius: var(--radius);
+            backdrop-filter: blur(var(--glass-blur));
+            box-shadow: 0 8px 30px rgba(2,6,12,0.55);
+            border: 1px solid rgba(0,212,255,0.08);
+        }
+
+        .meta p { margin: 8px 0; color: #dfefff }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 12px;
+        }
+        .pricing-card {
+            background: rgba(0,212,255,0.04);
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(0,212,255,0.08);
+            text-align: center;
+            transition: transform 160ms ease, box-shadow 160ms ease;
+        }
+        .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,212,255,0.12); }
+        .pricing-card h3 { color: #fff; margin-bottom: 6px; font-size: 1.05em }
+        .pricing-card p { color: #d6eaff; font-size: 0.95em; margin-bottom: 10px }
+        .price-tag { color: var(--highlight); font-weight: 800; font-size: 1.4em }
+
+        .back-link { display:inline-block; margin-top:12px; color:var(--accent); text-decoration:none; border:1px solid rgba(0,212,255,0.12); padding:8px 12px; border-radius:8px }
+
+        /* Info bubble (white background, dark text) */
+        .info-bubble {
+            position: fixed;
+            background: #ffffff;
+            color: #0a0e27;
+            padding: 10px 14px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            border: 1px solid rgba(10,14,39,0.06);
+            font-weight: 700;
+            z-index: 1000;
+            pointer-events: auto;
+            transition: transform 160ms ease, opacity 160ms ease;
+            opacity: 0;
+        }
+        .info-bubble.show { opacity: 1; transform: translateY(0); }
+        .info-bubble a.goto { margin-left: 8px; color: #00d4ff; font-weight: 900; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Профил на автора</h1>
+    </header>
+
+    <section class="meta" id="author-info">
+        <p><strong>Име:</strong> Валери Радивоев</p>
+        <p><strong>Роля:</strong> Главен технически специалист и системен интегратор</p>
+        <p><strong>Кратко резюме:</strong> 10+ години опит със сглобяване на персонализирани системи, ремонти и корпоративни решения.</p>
+        <p><strong>Услуги:</strong> консултации, custom builds, on-site support, оптимизация и обучение.</p>
+    </section>
+
+    <section id="pricing">
+        <h2>Ценоразпис</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>🧹 Почистване на ПК</h3>
+                <p>Вътрешно и външно почистване — премахване на прах и възстановяване на въздушен поток.</p>
+                <div class="price-tag">€45</div>
+            </div>
+
+            <div class="pricing-card">
+                <h3>🔌 Кабелна организация</h3>
+                <p>Подреждане и фиксиране на кабели за по-добра циркулация на въздуха и чист вид.</p>
+                <div class="price-tag">€35</div>
+            </div>
+
+            <div class="pricing-card">
+                <h3>🔧 Диагностика</h3>
+                <p>Пълна хардуерна и софтуерна диагностика с кратък доклад и препоръки.</p>
+                <div class="price-tag">€30</div>
+            </div>
+
+            <div class="pricing-card">
+                <h3>⚙️ Монтаж на компоненти</h3>
+                <p>Инсталация на SSD, RAM, GPU и други хардуерни ъпгрейди.</p>
+                <div class="price-tag">€40</div>
+            </div>
+
+            <div class="pricing-card">
+                <h3>💿 Инсталация на ОС</h3>
+                <p>Инсталиране и базова конфигурация на Windows или Linux системи.</p>
+                <div class="price-tag">€50</div>
+            </div>
+
+            <div class="pricing-card">
+                <h3>🛡️ Сигурност и оптимизация</h3>
+                <p>Антивирус, почистване на софтуерни отпадъци и оптимизация на производителността.</p>
+                <div class="price-tag">€55</div>
+            </div>
+        </div>
+    </section>
+
+    <section style="text-align:center;">
+        <p><a href="TechfixBeginPage.html" class="back-link info-link" data-info="Върни се на началната страница" data-href="TechfixBeginPage.html">← Назад на начало</a></p>
+    </section>
+
+    <script>
+        (function(){
+            let bubble = null; let showT = null, hideT = null;
+            function createBubble(text, href) {
+                const b = document.createElement('div');
+                b.className = 'info-bubble';
+                b.innerHTML = `<span>${text}</span>` + (href ? ` <a class="goto" href="${href}">Отиди</a>` : '');
+                document.body.appendChild(b); return b;
+            }
+            function positionBubble(b, target) {
+                const r = target.getBoundingClientRect(); const bw = b.offsetWidth, bh = b.offsetHeight;
+                let top = r.top - bh - 8; let left = r.left + (r.width/2) - (bw/2);
+                if (top < 8) top = r.bottom + 8; if (left < 8) left = 8;
+                if (left + bw > window.innerWidth - 8) left = window.innerWidth - bw - 8;
+                b.style.top = top + 'px'; b.style.left = left + 'px';
+            }
+            function showFor(target) {
+                const text = target.getAttribute('data-info') || ''; const href = target.getAttribute('data-href') || '';
+                if (!text) return; if (bubble) { bubble.remove(); bubble = null; }
+                bubble = createBubble(text, href);
+                requestAnimationFrame(() => { positionBubble(bubble, target); bubble.classList.add('show'); });
+            }
+            function hideBubble() { if (!bubble) return; bubble.classList.remove('show'); setTimeout(() => { if (bubble) { bubble.remove(); bubble = null; } }, 160); }
+            document.querySelectorAll('.info-link').forEach(el => {
+                el.addEventListener('mouseenter', () => { clearTimeout(hideT); showT = setTimeout(() => showFor(el), 180); });
+                el.addEventListener('mouseleave', () => { clearTimeout(showT); hideT = setTimeout(hideBubble, 180); });
+            });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideBubble(); });
+        })();
+    </script>
+</body>
+</html>

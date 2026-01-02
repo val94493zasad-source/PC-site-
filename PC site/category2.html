@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Периферия и аксесоари — TechFix</title>
+    <style>
+        :root {
+            --accent: #00d4ff;
+            --highlight: #ff00ff;
+            --dark-bg: #0a0e27;
+            --card-bg: rgba(255,255,255,0.06);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a3a 100%);
+            color: #eee;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0,212,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,0,255,0.06) 0%, transparent 50%);
+            animation: ambientShift 15s ease-in-out infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        @keyframes ambientShift {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        .particle::before {
+            content: '';
+            display: block;
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent);
+        }
+        
+        header {
+            background: linear-gradient(135deg, rgba(0,10,20,0.9) 0%, rgba(0,20,40,0.8) 100%);
+            padding: 2em 1em;
+            text-align: center;
+            border-bottom: 2px solid rgba(0,212,255,0.3);
+            position: relative;
+            z-index: 10;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(0,212,255,0.5);
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+        
+        header p {
+            color: #aaa;
+            margin-top: 0.5em;
+            font-size: 1.1em;
+        }
+        
+        /* Top nav bar with cart */
+        .topbar {
+            background: linear-gradient(135deg, rgba(0,10,20,0.95) 0%, rgba(0,20,40,0.9) 100%);
+            padding: 1em 2em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,212,255,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00aaff 100%);
+            color: #000;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 200ms ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,212,255,0.4);
+        }
+        
+        .cart-btn {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(0,212,255,0.2) 0%, rgba(255,0,255,0.1) 100%);
+            border: 2px solid rgba(0,212,255,0.4);
+            border-radius: 10px;
+            color: var(--accent);
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 200ms ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .cart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,212,255,0.4);
+        }
+        
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--highlight);
+            color: #000;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.8em;
+        }
+        
+        /* Category slide menu */
+        .category-slider {
+            background: rgba(0,10,20,0.7);
+            padding: 1.5em 1em;
+            overflow-x: auto;
+            border-bottom: 1px solid rgba(0,212,255,0.2);
+            display: flex;
+            gap: 15px;
+        }
+        
+        .category-slider::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .category-slider::-webkit-scrollbar-track {
+            background: rgba(0,212,255,0.1);
+        }
+        
+        .category-slider::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 3px;
+        }
+        
+        .category-tag {
+            padding: 10px 20px;
+            background: rgba(0,212,255,0.1);
+            border: 2px solid rgba(0,212,255,0.3);
+            border-radius: 20px;
+            color: var(--accent);
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 200ms ease;
+            text-decoration: none;
+        }
+        
+        .category-tag:hover,
+        .category-tag.active {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+        
+        /* Main container */
+        .container {
+            max-width: 1200px;
+            margin: 2em auto;
+            padding: 0 1em;
+        }
+        
+        .section-title {
+            color: var(--accent);
+            font-size: 2em;
+            margin-bottom: 1.5em;
+            text-shadow: 0 0 15px rgba(0,212,255,0.3);
+            font-weight: 900;
+        }
+        
+        /* Product grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 3em;
+        }
+        
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0,212,255,0.2);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 250ms ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 12px 40px rgba(0,212,255,0.3);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(255,0,255,0.1));
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+        }
+        
+        .product-name {
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .product-specs {
+            color: #bbb;
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+        
+        .product-price {
+            color: var(--highlight);
+            font-size: 1.8em;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+        
+        .buy-btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00aaff 100%);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 200ms ease;
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .buy-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,212,255,0.5);
+        }
+        
+        /* Cart modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+        }
+        
+        .cart-modal.show {
+            display: flex;
+        }
+        
+        .cart-content {
+            background: linear-gradient(135deg, rgba(0,10,25,0.98) 0%, rgba(15,25,50,0.95) 100%);
+            padding: 30px;
+            border-radius: 16px;
+            border: 2px solid rgba(0,212,255,0.3);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(0,212,255,0.2);
+            padding-bottom: 15px;
+        }
+        
+        .cart-header h2 {
+            color: var(--highlight);
+            font-size: 1.8em;
+        }
+        
+        .close-cart {
+            background: transparent;
+            border: none;
+            color: var(--accent);
+            font-size: 2em;
+            cursor: pointer;
+            font-weight: 900;
+        }
+        
+        .cart-items-list {
+            margin-bottom: 20px;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0,212,255,0.05);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(0,212,255,0.15);
+        }
+        
+        .cart-item-info {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-price {
+            color: var(--accent);
+            font-weight: 700;
+        }
+        
+        .cart-item-remove {
+            background: transparent;
+            border: none;
+            color: var(--highlight);
+            font-size: 1.5em;
+            cursor: pointer;
+            font-weight: 900;
+            margin-left: 15px;
+        }
+        
+        .cart-total {
+            background: rgba(0,212,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(0,212,255,0.2);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 900;
+            font-size: 1.2em;
+            color: var(--highlight);
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--highlight) 100%);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-weight: 900;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 200ms ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0,212,255,0.5);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+            color: #aaa;
+        }
+        
+        /* Toast notification */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: linear-gradient(135deg, rgba(0,212,255,0.3), rgba(255,0,255,0.2));
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 10px;
+            border: 1px solid rgba(0,212,255,0.5);
+            opacity: 0;
+            z-index: 300;
+            transition: all 250ms ease;
+            font-weight: 700;
+            box-shadow: 0 8px 30px rgba(0,212,255,0.3);
+            pointer-events: none;
+        }
+        
+        #toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        /* Info bubble (white background, dark text) */
+        .info-bubble {
+            position: fixed;
+            background: #ffffff;
+            color: #0a0e27;
+            padding: 10px 14px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            border: 1px solid rgba(10,14,39,0.06);
+            font-weight: 700;
+            z-index: 1000;
+            pointer-events: auto;
+            transition: transform 160ms ease, opacity 160ms ease;
+            opacity: 0;
+        }
+        .info-bubble.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .info-bubble a.goto {
+            display: inline-block;
+            margin-left: 8px;
+            background: transparent;
+            color: var(--accent);
+            font-weight: 900;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="toast"></div>
+    
+    <div class="topbar">
+        <a href="TechfixBeginPage.html" class="back-btn info-link" data-info="Върни се на началната страница" data-href="TechfixBeginPage.html">← Назад</a>
+        <h2 style="flex: 1; text-align: center; color: var(--accent); margin: 0;">Периферия и аксесоари</h2>
+        <button class="cart-btn info-link" id="cartBtn" data-info="Виж кошницата">
+            🛒
+            <div class="cart-badge" id="cartBadge">0</div>
+        </button>
+    </div>
+    
+    <div class="category-slider">
+        <a href="#" class="category-tag active" data-category="all">Всички</a>
+        <a href="#" class="category-tag" data-category="keyboard">Клавиатури</a>
+        <a href="#" class="category-tag" data-category="mouse">Мишки</a>
+        <a href="#" class="category-tag" data-category="headset">Слушалки</a>
+        <a href="#" class="category-tag" data-category="accessories">Аксесоари</a>
+    </div>
+    
+    <div class="container">
+        <div class="section-title">⌨️ Полюби своята периферия</div>
+        <div class="product-grid" id="productGrid"></div>
+    </div>
+    
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>🛒 Кошница</h2>
+                <button class="close-cart" id="closeCart">×</button>
+            </div>
+            <div class="cart-items-list" id="cartItemsList"></div>
+            <div class="cart-total">
+                <span>Общо:</span>
+                <span>€<span id="cartTotalPrice">0.00</span></span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Към каса</button>
+        </div>
+    </div>
+    
+    <script>
+        // Animated particles
+        function createParticles() {
+            const count = 25;
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animation = `float ${5 + Math.random() * 10}s infinite ease-in-out`;
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(particle);
+            }
+        }
+        
+        const keyframes = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+                25% { transform: translateY(-20px) translateX(10px); opacity: 0.6; }
+                50% { transform: translateY(-40px) translateX(-10px); opacity: 0.3; }
+                75% { transform: translateY(-20px) translateX(20px); opacity: 0.5; }
+            }
+        `;
+        const style = document.createElement('style');
+        style.textContent = keyframes;
+        document.head.appendChild(style);
+        createParticles();
+        
+        // Products data
+        const products = [
+            { id: 1, name: 'Corsair K95 Platinum', specs: 'Механична клавиатура\nCherry MX суичове\nRGB осветление\nПрограмируема', price: 199, category: 'keyboard', emoji: '⌨️' },
+            { id: 2, name: 'Logitech G Pro Superlight', specs: 'Безжична мишка\n25,600 DPI\n68g тегло\nМ Sensor', price: 139, category: 'mouse', emoji: '🖱️' },
+            { id: 3, name: 'SteelSeries Arctis Pro', specs: 'Игрална слушалка\nбез загуби звук\nШум-отмяна микрофон\n40ч батерия', price: 329, category: 'headset', emoji: '🎧' },
+            { id: 4, name: 'SteelSeries QcK Prism', specs: 'RGB мишачна подложка\nОптимизирана повърхност\nПремиум хардуер\nМного голямо', price: 99, category: 'accessories', emoji: '🎮' },
+            { id: 5, name: 'ASUS ROG Strix Soar', specs: 'Звукова карта 7.1\nПроцесор SoundMax\nН320 енкодер\nWiFi 6', price: 249, category: 'accessories', emoji: '🔊' },
+            { id: 6, name: 'Razer Viper V3', specs: 'Ултра светла мишка\n30,000 DPI\nфокусна технология\nWireless 2.4GHz', price: 89, category: 'mouse', emoji: '🖱️' },
+            { id: 7, name: 'Keychron K8 Pro', specs: 'Механична клавиатура\nОсветление RGB\nWireless & Wired\nmacOS/Windows', price: 129, category: 'keyboard', emoji: '⌨️' },
+            { id: 8, name: 'Sony WH-1000XM5', specs: 'Подавяне на шум\nБатерия 30+ часа\nАктивна шумна отмяна\nPremium звук', price: 449, category: 'headset', emoji: '🎧' },
+        ];
+        
+        // Cart system
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const cartBtn = document.getElementById('cartBtn');
+        const cartBadge = document.getElementById('cartBadge');
+        const cartModal = document.getElementById('cartModal');
+        const closeCart = document.getElementById('closeCart');
+        const productGrid = document.getElementById('productGrid');
+        const toast = document.getElementById('toast');
+        let activeCategory = 'all';
+        
+        function updateCartBadge() {
+            cartBadge.textContent = cart.length;
+        }
+        
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+        
+        function renderProducts(category = 'all') {
+            productGrid.innerHTML = '';
+            const filtered = category === 'all' ? products : products.filter(p => p.category === category);
+            filtered.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-image">${product.emoji}</div>
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-specs">${product.specs.replace(/\n/g, '<br>')}</div>
+                    <div class="product-price">€${product.price}</div>
+                    <button class="buy-btn" data-product='${JSON.stringify(product)}'>Добави в кошница</button>
+                `;
+                productGrid.appendChild(card);
+            });
+            
+            document.querySelectorAll('.buy-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const product = JSON.parse(btn.getAttribute('data-product'));
+                    cart.push({ name: product.name, price: product.price });
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartBadge();
+                    showToast(`✅ ${product.name} добавен в кошница!`);
+                });
+            });
+        }
+        
+        function renderCart() {
+            const cartItemsList = document.getElementById('cartItemsList');
+            cartItemsList.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = '<div class="empty-cart">Кошницата е празна</div>';
+                document.getElementById('cartTotalPrice').textContent = '0.00';
+                return;
+            }
+            
+            let total = 0;
+            cart.forEach((item, idx) => {
+                total += item.price;
+                const itemEl = document.createElement('div');
+                itemEl.className = 'cart-item';
+                itemEl.innerHTML = `
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">€${item.price.toFixed(2)}</div>
+                    </div>
+                    <button class="cart-item-remove" data-index="${idx}">×</button>
+                `;
+                cartItemsList.appendChild(itemEl);
+            });
+            
+            document.getElementById('cartTotalPrice').textContent = total.toFixed(2);
+            
+            document.querySelectorAll('.cart-item-remove').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.getAttribute('data-index'));
+                    cart.splice(idx, 1);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartBadge();
+                    renderCart();
+                    showToast('Продукт премахнат');
+                });
+            });
+        }
+        
+        // Category filter
+        document.querySelectorAll('.category-tag').forEach(tag => {
+            tag.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
+                activeCategory = tag.getAttribute('data-category');
+                renderProducts(activeCategory);
+            });
+        });
+        
+        // Cart handlers
+        cartBtn.addEventListener('click', () => {
+            renderCart();
+            cartModal.classList.add('show');
+        });
+        
+        closeCart.addEventListener('click', () => {
+            cartModal.classList.remove('show');
+        });
+        
+        cartModal.addEventListener('click', (e) => {
+            if (e.target === cartModal) cartModal.classList.remove('show');
+        });
+        
+        document.getElementById('checkoutBtn').addEventListener('click', () => {
+            if (cart.length === 0) {
+                showToast('❌ Кошницата е празна!');
+                return;
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            window.location.href = 'checkout.html';
+        });
+        
+        // Initial render
+        renderProducts();
+        updateCartBadge();
+    </script>
+    <script>
+        (function(){
+            let bubble = null;
+            let showT = null, hideT = null;
+
+            function createBubble(text, href) {
+                const b = document.createElement('div');
+                b.className = 'info-bubble';
+                b.innerHTML = `<span>${text}</span>` + (href ? ` <a class="goto" href="${href}">Отиди</a>` : '');
+                document.body.appendChild(b);
+                return b;
+            }
+
+            function positionBubble(b, target) {
+                const r = target.getBoundingClientRect();
+                const bw = b.offsetWidth, bh = b.offsetHeight;
+                let top = r.top - bh - 8;
+                let left = r.left + (r.width/2) - (bw/2);
+                if (top < 8) top = r.bottom + 8;
+                if (left < 8) left = 8;
+                if (left + bw > window.innerWidth - 8) left = window.innerWidth - bw - 8;
+                b.style.top = top + 'px';
+                b.style.left = left + 'px';
+            }
+
+            function showFor(target) {
+                const text = target.getAttribute('data-info') || '';
+                const href = target.getAttribute('data-href') || '';
+                if (!text) return;
+                if (bubble) { bubble.remove(); bubble = null; }
+                bubble = createBubble(text, href);
+                requestAnimationFrame(() => {
+                    positionBubble(bubble, target);
+                    bubble.classList.add('show');
+                });
+            }
+
+            function hideBubble() {
+                if (!bubble) return;
+                bubble.classList.remove('show');
+                setTimeout(() => { if (bubble) { bubble.remove(); bubble = null; } }, 160);
+            }
+
+            document.querySelectorAll('.info-link').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    clearTimeout(hideT);
+                    showT = setTimeout(() => showFor(el), 180);
+                });
+                el.addEventListener('mouseleave', () => {
+                    clearTimeout(showT);
+                    hideT = setTimeout(hideBubble, 180);
+                });
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') hideBubble();
+            });
+        })();
+    </script>
+</body>
+</html>
